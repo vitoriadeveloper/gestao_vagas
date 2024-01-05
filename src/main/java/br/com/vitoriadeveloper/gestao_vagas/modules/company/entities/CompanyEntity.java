@@ -29,7 +29,7 @@ public class CompanyEntity {
     @Email(message = "Please enter a valid email address")
     private String email;
 
-    @Length(min=6, max=15)
+    @Length(min=6, max=200)
     private String password;
 
     private String website;
