@@ -32,7 +32,7 @@ public class CandidateController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<Object> get(HttpServletRequest request) {
         var idCandidato = request.getAttribute("candidate_id");
         try {
