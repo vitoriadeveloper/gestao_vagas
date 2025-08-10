@@ -32,7 +32,7 @@ public class CandidateEntity {
     @Email(message = "Please enter a valid email address")
     private String email;
 
-    @Length(min=6, max=15)
+    @Length(min=6, max=60)
     private String password;
     private String description;
     private String curriculum;
