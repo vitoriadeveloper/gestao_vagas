@@ -19,14 +19,23 @@ public class SecurityConfig {
     @Autowired
     SecurityCandidateFilter securityCandidateFilter;
 
+    private static final String[] PATH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+           "/swagger-resources/**"
+    };
+
+    // acesso de rota http://localhost:8080/swagger-ui/index.html
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/candidate").permitAll()
-                            .requestMatchers("/company/").permitAll()
-                            .requestMatchers("/company/auth").permitAll()
-                            .requestMatchers("/candidate/auth").permitAll();
+                        .requestMatchers("/company/").permitAll()
+                        .requestMatchers("/company/auth").permitAll()
+                        .requestMatchers("/candidate/auth").permitAll()
+                        .requestMatchers(PATH_WHITELIST).permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class)
