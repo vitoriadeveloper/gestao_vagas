@@ -2,6 +2,7 @@ package br.com.vitoriadeveloper.gestao_vagas.modules.candidate.controller;
 
 import br.com.vitoriadeveloper.gestao_vagas.modules.candidate.CandidateEntity;
 import br.com.vitoriadeveloper.gestao_vagas.modules.candidate.useCases.CreateCandidateUseCase;
+import br.com.vitoriadeveloper.gestao_vagas.modules.candidate.useCases.ListAllJobsByFilterUseCase;
 import br.com.vitoriadeveloper.gestao_vagas.modules.candidate.useCases.ProfileCandidateUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -20,6 +21,9 @@ public class CandidateController {
     private CreateCandidateUseCase createCandidateUseCase;
     @Autowired
     private ProfileCandidateUseCase profileCandidateUseCase;
+
+    @Autowired
+    private ListAllJobsByFilterUseCase listAllJobsByFilterUseCase;
 
     @PostMapping
     public ResponseEntity<Object> create(
@@ -40,6 +44,17 @@ public class CandidateController {
         try {
             var profile = this.profileCandidateUseCase.execute(UUID.fromString(idCandidato.toString()));
             return ResponseEntity.ok().body(profile);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/job")
+    @PreAuthorize("hasRole('candidate')")
+    public ResponseEntity<Object> findJobByFilter(@RequestParam String filter) {
+        try {
+            var jobs = this.listAllJobsByFilterUseCase.execute(filter);
+            return ResponseEntity.ok().body(jobs);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
