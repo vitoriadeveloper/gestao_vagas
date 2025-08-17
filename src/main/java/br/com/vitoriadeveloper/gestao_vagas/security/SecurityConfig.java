@@ -22,7 +22,7 @@ public class SecurityConfig {
     private static final String[] PATH_WHITELIST = {
             "/v3/api-docs/**",
             "/swagger-ui/**",
-           "/swagger-resources/**"
+            "/swagger-resources/**"
     };
 
     // acesso de rota http://localhost:8080/swagger-ui/index.html
@@ -32,10 +32,10 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/candidate").permitAll()
-                        .requestMatchers("/company/").permitAll()
-                        .requestMatchers("/company/auth").permitAll()
-                        .requestMatchers("/candidate/auth").permitAll()
-                        .requestMatchers(PATH_WHITELIST).permitAll();
+                            .requestMatchers("/company/").permitAll()
+                            .requestMatchers("/company/auth").permitAll()
+                            .requestMatchers("/candidate/auth").permitAll()
+                            .requestMatchers(PATH_WHITELIST).permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class)

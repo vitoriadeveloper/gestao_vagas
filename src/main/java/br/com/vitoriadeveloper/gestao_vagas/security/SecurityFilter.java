@@ -27,9 +27,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         if (request.getRequestURI().startsWith("/company")) {
-            if (header != null) {
-                var subjectToken = this.jwtProvider.validateToken(header);
+            if (header != null && header.startsWith("Bearer ")){
+                var token = header.split(" ")[1].trim();
+                var subjectToken = this.jwtProvider.validateToken(token);
 
+        System.out.println("## HEADER NA REQ DE COMPANY JOB ## \n" + token);
                 if (subjectToken.isEmpty()) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
